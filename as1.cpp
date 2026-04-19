@@ -1,86 +1,114 @@
 #include <iostream>
+#include <vector>
 using namespace std;
 
-class sortings{
-private:
-public:
-
-int bnry_search(vector<int> &a,int n,int key);
-int r_bnry_search(vector<int> &a,int key,int high,int low);
-void solve();
-};
-
-int sortings::bnry_search(vector<int> &a,int n,int key){
-    int high=n-1;
-    int low=0;
-
-    int flag=0;
-    int pos=0;
-    while(high>=low){
-        int mid=floor((low+high)/2);
-        if(key==a[mid]){
-            flag=1;
-            pos=mid;
-            break;
+int binary_search_rec(vector<int> &arr,int low,int high,int key){
+    while(low<=high){
+        int mid = (high+low)/2;
+        if(arr[mid] == key){
+            cout << "key found at index:" << mid << endl;
+            return 0;
         }
-
-        else if(key>a[mid]){
-            low=mid+1;
+        else if(key<arr[mid]){
+            return binary_search_rec(arr,low,mid-1,key);
         }
         else{
-            high=mid-1;
+            return binary_search_rec(arr,mid+1,high,key);
+        }
+
+    }
+    return 0;
+}
+
+void binary_search_iter(vector<int> &arr,int low,int high,int key){
+    while(low<=high){
+        int mid = (high+low)/2;
+        if(arr[mid] == key){
+            cout << "key found at index:" << mid << endl;
+            return;
+        }
+        else if(key<arr[mid]){
+            high = mid-1;
+        }
+        else{
+            low = mid+1;
+        }
+
+    }
+    cout << "key not found in the array" << endl;
+}
+
+void linear_search(vector<int> &arr,int key){
+    for(int i=0;i<arr.size();i++){
+        if(arr[i] == key){
+            cout << "key found at index(using linear search):" << i << endl;
+            return;
         }
     }
-    if(flag==0){
-        return -1;
+    cout << "key not found in the array" << endl;
+}
+
+void selection_sort(vector<int> &arr){
+    int len = arr.size();
+    for(int i =0;i<len-1;i++){
+    int minpos = i;
+    for(int j=i+1;j<len;j++){
+        if(arr[j] < arr[minpos]){
+            minpos = j;
+        }
     }
-    else{
-        return pos;
+    int temp = arr[minpos];
+    arr[minpos] = arr[i];
+    arr[i] = temp;
+}}
+
+void bubble_sort(vector<int>&arr){
+    int len = arr.size();
+    for(int i=0;i<len-1;i++){
+        for(int j=0;j<len;j++){
+            if(arr[j]>arr[j+1]){
+                int temp = arr[j];
+                arr[j+1] = arr[j];
+                arr[j] = temp;
+                
+            }
+        }
     }
 }
 
-int sortings::r_bnry_search(vector<int> &a,int key,int high,int low){
-    int mid=floor((high+low)/2);
-    if(low>high){
-        return -1;
+void printArray(vector<int> &arr) {
+    for (int &val : arr) {
+        cout << val << " ";
     }
-
-    if(a[mid]==key){
-        return mid;
-    }
-
-    else if(key>mid){
-        r_bnry_search(a,key,high,mid+1);
-    }
-
-    else{
-        r_bnry_search(a,key,mid-1,low);
-    }
-
-    return -1;
+    cout << endl;
 }
 
-void sortings::solve(){
-    cout<<"Enter the length of the array\n";
-    int n;
-    cin>>n;
-    
-    int high=n-1;
-    int low=0;
-
-    cout<<"Enter the array\n";
-    vector<int> a(n);
-    for(int i=0;i<n;i++)cin>>a[i];
-
-    cout<<"Enter the key you want to search now\n";
-    int key;
-    cin>>key;
-
-    cout<<"iterative answer(if not found , answer will be -1) "<<bnry_search(a,n,key)<<endl;
-    cout<<"recursive answer(if not found , answer will be -1) "<<r_bnry_search(a,key,high,low)<<endl;
-}
 
 int main(){
-    sortings s;
-    s.solve();
+    cout << "how many elements does the array have:";
+    int n; 
+    cin >> n;
+    vector<int>arr(n);
+    for(int i=0;i<n;i++){
+        cout << "enter value of index" << i << ":";
+        cin >> arr[i];
+    }
+    cout << "sorting using selection sort.." << endl;
+    selection_sort(arr);
+    printArray(arr);
+    
+    cout << "sorting using bubble sort.." << endl;
+    bubble_sort(arr);
+    printArray(arr);
+
+    int low = 0;
+    int high = arr.size()-1;
+    cout << "which value to search:";
+    int key;
+    cin >> key;
+    binary_search_rec(arr,low,high,key);
+    binary_search_iter(arr,low,high,key);
+    linear_search(arr,key);
+
+    return 0;
 }
