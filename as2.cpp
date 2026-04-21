@@ -122,17 +122,8 @@ int main() {
         cout << "Bill Amount: "; cin >> arr[i].amount;
     }
 
-    
-    object.merge_sort(arr, 0, n - 1);
-    cout << "\nSorted by Bill Amount :\n";
-    object.display(arr);
-
     cout << "\nSorted by phone number :\n";
     object.quickSort(arr,0,n-1);
-    object.display(arr);
-
-    cout << "\nheap sort :\n";
-    object.heapSort(arr);
     object.display(arr);
 
     return 0;

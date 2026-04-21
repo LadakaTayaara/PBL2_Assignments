@@ -124,7 +124,4 @@ void graph :: prims(int v){
     g.prims(v);
     
     return 0;
-    
-     
-    
 }
