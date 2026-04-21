@@ -9,7 +9,7 @@ public:
     long mobile_no;
     int amount;
 
-    //merge sort
+    /*merge sort
     void merge(vector<User>& arr, int left, int mid, int right) {
         int n1 = mid - left + 1;
         int n2 = right - mid;
@@ -40,7 +40,7 @@ public:
         merge_sort(arr, mid + 1, right);
         merge(arr, left, mid, right);
     }
-
+    */
     
     // display function
     void display(vector<User>& arr) {
@@ -71,6 +71,7 @@ public:
         }
     }
 
+    /*
     void heapify(vector<User>& arr, int n, int i) {
         int largest = i;
         int left = 2 * i + 1;
@@ -104,7 +105,7 @@ public:
             swap(arr[0], arr[i]);     // move current root to end
             heapify(arr, i, 0);       
     }}
-    
+    */
 };
 
 int main() {
