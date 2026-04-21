@@ -140,6 +140,7 @@ avl_node* avltree :: insert()
         cout << "Enter your choice (y/n): ";
         cin >> ch;
     } while (ch == 'y' || ch == 'Y');
+    return root;
 }
 
 avl_node* avltree::display(avl_node* ptr, int level)
