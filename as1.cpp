@@ -48,34 +48,6 @@ void linear_search(vector<int> &arr,int key){
     cout << "key not found in the array" << endl;
 }
 
-void selection_sort(vector<int> &arr){
-    int len = arr.size();
-    for(int i =0;i<len-1;i++){
-    int minpos = i;
-    for(int j=i+1;j<len;j++){
-        if(arr[j] < arr[minpos]){
-            minpos = j;
-        }
-    }
-    int temp = arr[minpos];
-    arr[minpos] = arr[i];
-    arr[i] = temp;
-}}
-
-void bubble_sort(vector<int>&arr){
-    int len = arr.size();
-    for(int i=0;i<len-1;i++){
-        for(int j=0;j<len-i-1;j++){
-            if(arr[j]>arr[j+1]){
-                int temp = arr[j];
-                arr[j+1] = temp;
-                arr[j] = temp;
-                
-            }
-        }
-    }
-}
-
 void printArray(vector<int> &arr) {
     for (int &val : arr) {
         cout << val << " ";
@@ -93,14 +65,7 @@ int main(){
         cout << "enter value of index" << i << ":";
         cin >> arr[i];
     }
-    cout << "sorting using selection sort.." << endl;
-    selection_sort(arr);
-    printArray(arr);
     
-    cout << "sorting using bubble sort.." << endl;
-    bubble_sort(arr);
-    printArray(arr);
-
     int low = 0;
     int high = arr.size()-1;
     cout << "which value to search:";
