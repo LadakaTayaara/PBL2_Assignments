@@ -22,9 +22,6 @@ class avltree {
     avl_node* insert();
     avl_node* insert(avl_node*,avl_node*);
     avl_node* display(avl_node*,int);
-    // void inorder(avl_node*);
-    // void preorder(avl_node*);
-    // void postorder(avl_node*);
     avltree()
     {
         root=NULL;
@@ -51,7 +48,7 @@ avl_node* avltree:: rr (avl_node *parent)
 avl_node* avltree:: lr(avl_node *parent)
 {
     avl_node *temp = parent->left;
-    parent->left = rr (temp); //calling RR rotation
+    parent->left = rr (temp); 
     return ll(parent); 
     
 }
@@ -59,7 +56,7 @@ avl_node* avltree:: lr(avl_node *parent)
 avl_node* avltree:: rl (avl_node *parent)
 {
     avl_node *temp = parent->right;
-    parent->right = ll (temp); // calling LL rotation
+    parent->right = ll (temp); 
     return rr (parent);
     
 }
@@ -159,38 +156,6 @@ avl_node* avltree::display(avl_node* ptr, int level)
     return ptr;
 }
 
-// avl_node* avltree::inorder(avl_node* tree)
-// {
-//     if (tree != NULL)
-//     {
-//         inorder(tree->left);
-//         cout << tree->value << " ";
-//         inorder(tree->right);
-//     }
-//     return tree;
-// }
-
-// avl_node* avltree::preorder(avl_node* tree)
-// {
-//     if (tree != NULL)
-//     {
-//         cout << tree->value << " ";
-//         preorder(tree->left);
-//         preorder(tree->right);
-//     }
-//     return tree;
-// }
-
-// avl_node* avltree::postorder(avl_node* tree)
-// {
-//     if (tree != NULL)
-//     {
-//         postorder(tree->left);
-//         postorder(tree->right);
-//         cout << tree->value << " ";
-//     }
-//     return tree;
-// }
 
 int main()
 {
@@ -201,15 +166,6 @@ int main()
 
     cout << "\nDisplay AVL Tree:\n";
     obj.display(obj.root, 1);
-
-    // cout << "\n\nInorder Traversal:\n";
-    // obj.inorder(obj.root);
-
-    // cout << "\n\nPreorder Traversal:\n";
-    // obj.preorder(obj.root);
-
-    // cout << "\n\nPostorder Traversal:\n";
-    // obj.postorder(obj.root);
 
     cout << endl;
 
