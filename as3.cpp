@@ -102,27 +102,60 @@ public:
         cout << endl;
     }
 
-    // -------- DFT (DFS helper) --------
-    void dfsUtil(int v, bool visited[]) {
+    // -------- Recursive BFT (BFS helper) --------
+    void bfsRecursiveUtil(queue<int>& q, bool visited[]) {
+        if (q.empty()) return;
+
+        int v = q.front();
+        q.pop();
+
+        cout << v << " (" << name[v] << ") ";
+
+        gnode *temp = head[v]->next;
+        while (temp != NULL) {
+            if (!visited[temp->vertex]) {
+                visited[temp->vertex] = true;
+                q.push(temp->vertex);
+            }
+            temp = temp->next;
+        }
+
+        bfsRecursiveUtil(q, visited);
+    }
+    
+    void bfs_recursive(int start) {
+        bool visited[20] = {false};
+        queue<int> q;
+
+        visited[start] = true;
+        q.push(start);
+
+        cout << "\nRecursive BFT (BFS) starting from " << name[start] << ": ";
+        bfsRecursiveUtil(q, visited);
+        cout << endl;
+    }
+
+    // -------- Recursive DFT (DFS helper) --------
+    void dfsRecursiveUtil(int v, bool visited[]) {
         visited[v] = true;
         cout << v << " (" << name[v] << ") ";
 
         gnode *temp = head[v]->next;
         while (temp != NULL) {
             if (!visited[temp->vertex]) {
-                dfsUtil(temp->vertex, visited);
+                dfsRecursiveUtil(temp->vertex, visited);
             }
             temp = temp->next;
         }
     }
 
     
-    void dft(int start) {
+    void dfs_recursive(int start) {
         bool visited[20] = {false};
 
-        cout << "\nDFT starting from "
+        cout << "\nRecursive DFT (DFS) starting from "
              << name[start] << ": ";
-        dfsUtil(start, visited);
+        dfsRecursiveUtil(start, visited);
         cout << endl;
     }
 };
@@ -133,11 +166,12 @@ int main() {
     g.display();
 
     int start;
-    cout << "\nEnter starting user ID for BFT & DFT: ";
+    cout << "\nEnter starting user ID for Traversals: ";
     cin >> start;
 
-    g.bft(start);
-    g.dft(start);
+    g.bft(start); // Iterative BFT
+    g.bfs_recursive(start);
+    g.dfs_recursive(start);
 
     return 0;
 }
