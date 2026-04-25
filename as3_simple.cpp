@@ -84,29 +84,34 @@ void bft(int start) {
     cout << endl;
 }
 
-void dfsUtil(int v, bool visited[]) {
+void dft(int v, bool isFirst = true) {
+    static bool visited[20];
+    if (isFirst) {
+        fill(visited, visited + 20, false);
+        cout << "\nDFT from " << name[v] << ": ";
+    }
     visited[v] = true;
     cout << v << " (" << name[v] << ") ";
     Node* temp = head[v]->next;
     while (temp != NULL) {
-        if (!visited[temp->vertex]) {
-            dfsUtil(temp->vertex, visited);
-        }
+        if (!visited[temp->vertex]) dft(temp->vertex, false);
         temp = temp->next;
     }
+    if (isFirst) cout << endl;
 }
 
-void dft(int start) {
-    bool visited[20] = {false};
-    cout << "\nDFT from " << name[start] << ": ";
-    dfsUtil(start, visited);
-    cout << endl;
-}
-
-void bfsRecursiveUtil(queue<int>& q, bool visited[]) {
-    if (q.empty()) return;
-    int v = q.front();
-    q.pop();
+void bfs_recursive(int start, bool isFirst = true) {
+    static bool visited[20];
+    static queue<int> q;
+    if (isFirst) {
+        fill(visited, visited + 20, false);
+        while (!q.empty()) q.pop();
+        visited[start] = true;
+        q.push(start);
+        cout << "\nRecursive BFS from " << name[start] << ": ";
+    }
+    if (q.empty()) { cout << endl; return; }
+    int v = q.front(); q.pop();
     cout << v << " (" << name[v] << ") ";
     Node* temp = head[v]->next;
     while (temp != NULL) {
@@ -116,36 +121,23 @@ void bfsRecursiveUtil(queue<int>& q, bool visited[]) {
         }
         temp = temp->next;
     }
-    bfsRecursiveUtil(q, visited);
+    bfs_recursive(start, false);
 }
 
-void bfs_recursive(int start) {
-    bool visited[20] = {false};
-    queue<int> q;
-    visited[start] = true;
-    q.push(start);
-    cout << "\nRecursive BFS from " << name[start] << ": ";
-    bfsRecursiveUtil(q, visited);
-    cout << endl;
-}
-
-void dfsRecursiveUtil(int v, bool visited[]) {
+void dfs_recursive(int v, bool isFirst = true) {
+    static bool visited[20];
+    if (isFirst) {
+        fill(visited, visited + 20, false);
+        cout << "\nRecursive DFS from " << name[v] << ": ";
+    }
     visited[v] = true;
     cout << v << " (" << name[v] << ") ";
     Node* temp = head[v]->next;
     while (temp != NULL) {
-        if (!visited[temp->vertex]) {
-            dfsRecursiveUtil(temp->vertex, visited);
-        }
+        if (!visited[temp->vertex]) dfs_recursive(temp->vertex, false);
         temp = temp->next;
     }
-}
-
-void dfs_recursive(int start) {
-    bool visited[20] = {false};
-    cout << "\nRecursive DFS from " << name[start] << ": ";
-    dfsRecursiveUtil(start, visited);
-    cout << endl;
+    if (isFirst) cout << endl;
 }
 
 int main() {
