@@ -11,6 +11,7 @@ struct Node {
 Node* head[20];
 string name[20];
 int n;
+bool visited[20];
 
 Node* newNode(int v) {
     Node* node = new Node();
@@ -64,7 +65,6 @@ void displayGraph() {
 }
 
 void bfs(int v) {
-    bool visited[20];
     for (int i = 0; i < n; i++) {
         visited[i] = false;
     }
@@ -92,7 +92,6 @@ void bfs(int v) {
 }
 
 void dft(int v) {
-    bool visited[20];
     for (int i = 0; i < n; i++) {
         visited[i] = false;
     }
@@ -121,15 +120,7 @@ void dft(int v) {
 
 
 
-void dfs_recursive(int v, bool isFirst = true) {
-    static bool visited[20];
-    if (isFirst) {
-        for (int i = 0; i < n; i++) {
-            visited[i] = false;
-        }
-        cout << "\nRecursive DFS from " << name[v] << ": ";
-    }
-    
+void dfs_recursive(int v) {
     cout << v << " (" << name[v] << ") ";
     visited[v] = true;
     
@@ -137,12 +128,10 @@ void dfs_recursive(int v, bool isFirst = true) {
     while (temp != NULL) {
         int w = temp->vertex;
         if (!visited[w]) {
-            dfs_recursive(w, false);
+            dfs_recursive(w);
         }
         temp = temp->next;
     }
-    
-    if (isFirst) cout << endl;
 }
 
 int main() {
@@ -156,7 +145,13 @@ int main() {
 
     bfs(start);
     dft(start);
+    
+    for (int i = 0; i < n; i++) {
+        visited[i] = false;
+    }
+    cout << "\nRecursive DFS from " << name[start] << ": ";
     dfs_recursive(start);
+    cout << endl;
 
     return 0;
 }
