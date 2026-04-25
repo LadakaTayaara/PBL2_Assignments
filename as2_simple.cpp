@@ -36,6 +36,29 @@ void quickSort(vector<User> &arr, int low, int high) {
     }
 }
 
+void merge(vector<User> &arr, int left, int mid, int right) {
+    vector<User> L(arr.begin() + left, arr.begin() + mid + 1);
+    vector<User> R(arr.begin() + mid + 1, arr.begin() + right + 1);
+    int i = 0, j = 0, k = left;
+    while (i < L.size() && j < R.size()) {
+        if (L[i].amount <= R[j].amount)
+            arr[k++] = L[i++];
+        else
+            arr[k++] = R[j++];
+    }
+    while (i < L.size()) arr[k++] = L[i++];
+    while (j < R.size()) arr[k++] = R[j++];
+}
+
+void mergeSort(vector<User> &arr, int left, int right) {
+    if (left < right) {
+        int mid = (left + right) / 2;
+        mergeSort(arr, left, mid);
+        mergeSort(arr, mid + 1, right);
+        merge(arr, left, mid, right);
+    }
+}
+
 int main() {
     int n;
     cout << "How many elements does the array have: ";
@@ -49,8 +72,12 @@ int main() {
         cout << "Bill Amount: "; cin >> arr[i].amount;
     }
 
-    cout << "\nSorted by phone number:\n";
+    cout << "\nSorted by phone number (Quick Sort):\n";
     quickSort(arr, 0, n - 1);
+    display(arr);
+
+    cout << "\nSorted by bill amount (Merge Sort):\n";
+    mergeSort(arr, 0, n - 1);
     display(arr);
 
     return 0;
