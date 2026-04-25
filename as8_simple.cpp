@@ -24,7 +24,7 @@ void initHashTable() {
     }
 }
 
-void create_wor() {
+void insert_record(bool with_replacement) {
     fstream f("student.txt", ios::binary | ios::app | ios::out);
     Student stud;
     char ch;
@@ -33,18 +33,24 @@ void create_wor() {
         cin >> stud.name >> stud.rollno >> stud.marks;
 
         int loc = stud.rollno % 10;
+        int curr_roll = stud.rollno;
+        int curr_pos = relt;
 
-        if (h[loc].rollno == -1) {
-            h[loc].rollno = stud.rollno;
+        // If using Replacement and the home location is occupied by a synonym
+        if (with_replacement && h[loc].rollno != -1 && (h[loc].rollno % 10) != loc) {
+            curr_roll = h[loc].rollno;     // Demote occupant
+            curr_pos = h[loc].pos;
+            h[loc].rollno = stud.rollno;   // Place new element at its true home
             h[loc].pos = relt;
-        } else {
-            for (int i = 1; i < 10; i++) {
-                int newloc = (loc + i) % 10;
-                if (h[newloc].rollno == -1) {
-                    h[newloc].rollno = stud.rollno;
-                    h[newloc].pos = relt;
-                    break;
-                }
+        }
+
+        // Linear probing to find the next empty slot for whichever element needs a home
+        for (int i = 0; i < 10; i++) {
+            int newloc = (loc + i) % 10;
+            if (h[newloc].rollno == -1) {
+                h[newloc].rollno = curr_roll;
+                h[newloc].pos = curr_pos;
+                break;
             }
         }
 
@@ -57,57 +63,8 @@ void create_wor() {
     f.close();
 }
 
-void create_wr() {
-    fstream f("student.txt", ios::binary | ios::app | ios::out);
-    Student stud;
-    char ch;
-    do {
-        cout << "Enter student name, rollno, marks: ";
-        cin >> stud.name >> stud.rollno >> stud.marks;
-
-        int loc = stud.rollno % 10;
-
-        if (h[loc].rollno == -1) {
-            h[loc].rollno = stud.rollno;
-            h[loc].pos = relt;
-        } else {
-            int home_of_occupant = h[loc].rollno % 10;
-
-            if (home_of_occupant == loc) {
-                for (int i = 1; i < 10; i++) {
-                    int newloc = (loc + i) % 10;
-                    if (h[newloc].rollno == -1) {
-                        h[newloc].rollno = stud.rollno;
-                        h[newloc].pos = relt;
-                        break;
-                    }
-                }
-            } else {
-                int temp_rollno = h[loc].rollno;
-                int temp_pos = h[loc].pos;
-
-                h[loc].rollno = stud.rollno;
-                h[loc].pos = relt;
-
-                for (int i = 1; i < 10; i++) {
-                    int newloc = (loc + i) % 10;
-                    if (h[newloc].rollno == -1) {
-                        h[newloc].rollno = temp_rollno;
-                        h[newloc].pos = temp_pos;
-                        break;
-                    }
-                }
-            }
-        }
-
-        f.write((char*)&stud, s);
-        relt++;
-
-        cout << "Add more records? (y/n): ";
-        cin >> ch;
-    } while (ch == 'y' || ch == 'Y');
-    f.close();
-}
+void create_wor() { insert_record(false); }
+void create_wr()  { insert_record(true); }
 
 void display_all() {
     fstream f("student.txt", ios::binary | ios::in);
