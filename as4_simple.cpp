@@ -38,27 +38,33 @@ void displayGraph() {
     }
 }
 
-void prims(int v) {
+int prims(int start_v) {
     int nearest[10], t[10][3];
-    int r = 0;
     int mincost = 0;
     int min, j;
+    int r;
 
-    nearest[v] = -1;
+    //Initialize nearest
+    nearest[start_v] = -1;
     for (int i = 0; i < n; i++) {
-        if (i != v) {
-            nearest[i] = v;
+        if (i != start_v) {
+            nearest[i] = start_v;
         }
     }
+    r = 0;
 
     for (int i = 1; i < n; i++) {
+        //find n-1 additional edges for t
         min = 999;
         for (int k = 0; k < n; k++) {
+            // find j : vertex such that;
             if (nearest[k] != -1 && cost[k][nearest[k]] < min) {
                 j = k;
                 min = cost[k][nearest[k]];
             }
         }
+
+        //update tree and total cost
         t[r][0] = nearest[j];
         t[r][1] = j;
         t[r][2] = min;
@@ -67,19 +73,21 @@ void prims(int v) {
         mincost = mincost + cost[j][nearest[j]];
         nearest[j] = -1;
 
+        //update nearest for remaining vertices
         for (int k = 0; k < n; k++) {
             if (nearest[k] != -1 && cost[k][nearest[k]] > cost[k][j]) {
                 nearest[k] = j;
             }
         }
-    }
+    } //end for i=1 to n-1
 
-    cout << "Weight of MST: " << mincost << endl;
     cout << "Edges in MST:\n";
     for (int i = 0; i < n - 1; i++) {
         cout << t[i][0] << "->" << t[i][1] << "[" << t[i][2] << "]" << endl;
     }
     cout << "\n";
+
+    return mincost;
 }
 
 int main() {
@@ -87,10 +95,11 @@ int main() {
     createGraph();
     displayGraph();
 
-    int v;
+    int start_v;
     cout << "Enter start vertex: ";
-    cin >> v;
-    prims(v);
+    cin >> start_v;
+    int mst_weight = prims(start_v);
+    cout << "Weight of MST: " << mst_weight << endl;
 
     return 0;
 }
