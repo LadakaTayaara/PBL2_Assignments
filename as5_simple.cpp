@@ -86,16 +86,11 @@ Node* insert(Node* root, int value) {
     return root;
 }
 
-void display(Node* ptr, int level) {
+void display(Node* ptr) {
     if (ptr != NULL) {
-        display(ptr->right, level + 1);
-        cout << endl;
-        if (ptr == root)
-            cout << "Root -> ";
-        for (int i = 0; i < level && ptr != root; i++)
-            cout << "        ";
-        cout << ptr->value;
-        display(ptr->left, level + 1);
+        display(ptr->left);
+        cout << ptr->value << " ";
+        display(ptr->right);
     }
 }
 
@@ -112,7 +107,7 @@ int main() {
     } while (ch == 'y' || ch == 'Y');
 
     cout << "\nDisplay AVL Tree:\n";
-    display(root, 1);
+    display(root);
     cout << endl;
 
     return 0;
